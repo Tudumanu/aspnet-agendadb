@@ -11,46 +11,39 @@ public partial class _Default : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-           // if (Session["registros"] == null)
-            //{
-                //  agenda msg = new agenda;
-                // Cria lista para o objeto
-                List<agenda> msg = new List<agenda>();
+            // Cria lista para o objeto
+            List<agenda> msg = new List<agenda>();
 
-                // Adiciona dados ao objeto
-                //msg.Add(new agenda(1, "Ricardo", "5555-8899"));
-                //msg.Add(new agenda(2, "Mantovani", "3333-7845"));
-                try
+            // Adiciona dados ao objeto
+            try
+            {
+                using (OdbcConnection connection = new OdbcConnection(ConfigurationManager.ConnectionStrings["MySQLServerConnStr"].ConnectionString))
                 {
-                    using (OdbcConnection connection = new OdbcConnection(ConfigurationManager.ConnectionStrings["MySQLServerConnStr"].ConnectionString))
+                    connection.Open();
+                    using (OdbcCommand command = new OdbcCommand("SELECT * FROM agenda", connection))
+                    using (OdbcDataReader dr = command.ExecuteReader())
                     {
-                        connection.Open();
-                        using (OdbcCommand command = new OdbcCommand("SELECT * FROM agenda", connection))
-                        using (OdbcDataReader dr = command.ExecuteReader())
+                        while (dr.Read())
                         {
-                            while (dr.Read())
-                            {
-                               msg.Add(new agenda(Int32.Parse(dr["id"].ToString()), dr["nome"].ToString(), dr["telefone"].ToString()));
-                            }
-                            dr.Close();
+                            msg.Add(new agenda(Int32.Parse(dr["id"].ToString()), dr["nome"].ToString(), dr["telefone"].ToString()));
                         }
-                        connection.Close();
+                        dr.Close();
                     }
+                    connection.Close();
                 }
-                catch (Exception ex)
-                {
-                    Response.Write("An error occured: " + ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("An error occured: " + ex.Message);
+            }
 
-                // Adiciona objeto a sessão
-                Session["registros"] = msg;
-           // }
+            // Adiciona objeto a sessão
+            Session["registros"] = msg;
 
             // Cria pagina no método HTTP GET
             if (Request.HttpMethod.Equals("GET"))
-            {
                 doGet();
-            }
+
         }
 
         private void doGet()

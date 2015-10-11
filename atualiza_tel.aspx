@@ -9,7 +9,18 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    
+    <h1>Editar Contato Telefônico</h1>
+        <p>Nome:
+            <asp:TextBox ID="txtnome" runat="server"></asp:TextBox>
+        </p>
+        <p>Telefone:
+            <asp:TextBox ID="txttel" runat="server"></asp:TextBox>
+        </p>
+        <p>
+            <asp:Button ID="Button1" runat="server" onclick="Button1_Click" 
+                Text="Editar Contato" />
+            <asp:HyperLink NavigateUrl="~/Default.aspx" runat="server">Voltar</asp:HyperLink>
+        </p>
     </div>
     </form>
 </body>

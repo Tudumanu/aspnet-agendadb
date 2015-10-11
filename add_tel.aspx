@@ -10,9 +10,6 @@
     <form id="form1" runat="server">
     <div>
     <h1>Adicionar Contato Telefônico</h1>
-        <p>Id:
-            <asp:TextBox ID="txtid" runat="server"></asp:TextBox>
-        </p>
         <p>Nome:
             <asp:TextBox ID="txtnome" runat="server"></asp:TextBox>
         </p>
@@ -22,6 +19,7 @@
         <p>
             <asp:Button ID="Button1" runat="server" onclick="Button1_Click" 
                 Text="Adicionar Contato" />
+            <asp:HyperLink NavigateUrl="~/Default.aspx" runat="server">Voltar</asp:HyperLink>
         </p>
     </div>
     </form>

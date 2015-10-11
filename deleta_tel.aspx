@@ -9,7 +9,18 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    
+    <h1>Deseja realmente apagar o telefone ?</h1>
+        <p>Nome:
+            <asp:Label ID="txtnome" runat="server"></asp:Label>
+        </p>
+        <p>Telefone:
+            <asp:Label ID="txttel" runat="server"></asp:Label>
+        </p>
+        <p>
+            <asp:Button ID="Button1" runat="server" onclick="Button1_Click" 
+                Text="Apagar" />
+            <asp:HyperLink NavigateUrl="~/Default.aspx" runat="server">Voltar</asp:HyperLink>
+        </p>
     </div>
     </form>
 </body>

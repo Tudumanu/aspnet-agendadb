@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data.Odbc;
+using System.Configuration;
 
 public partial class add_tel : System.Web.UI.Page
 {
@@ -13,14 +15,24 @@ public partial class add_tel : System.Web.UI.Page
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
-        // recupera parametro
-        string parametro = Request.QueryString["identificador"];
+        // Adiciona registro
+        try
+        {
+            using (OdbcConnection connection = new OdbcConnection(ConfigurationManager.ConnectionStrings["MySQLServerConnStr"].ConnectionString))
+            {
+                connection.Open();
+                
+                using (OdbcCommand command = new OdbcCommand("INSERT INTO agenda (nome, telefone) VALUES ('" + txtnome.Text + "','" + txttel.Text + "')", connection))
+                    command.ExecuteNonQuery();
 
-        // Recupera objeto da sessão
-        List<agenda> registros = (List<agenda>)Session["registros"];
+                connection.Close();
+            }
 
-        // Adiciona registros
-        registros.Add(new agenda(Convert.ToInt32(txtid.Text), txtnome.Text, txttel.Text));
-        Response.Redirect("default.aspx");
+            Response.Redirect("default.aspx");
+        }
+        catch (Exception ex)
+        {
+            Response.Write("An error occured: " + ex.Message);
+        }  
     }
 }
